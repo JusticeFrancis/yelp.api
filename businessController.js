@@ -39,7 +39,7 @@ async function handleQuery(req, res) {
     
     Conclude each article with a summary of the article.
     All this should be written in html paragraphs appropriately.
-    Use bold html tags for title and headings of paragraphs.
+    Use bold html tag for title and headings of paragraphs.
     `;
 
   try {
