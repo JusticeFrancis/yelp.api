@@ -72,17 +72,25 @@
 
 
             <div class="flex justify-center">
-                <button onclick="getResult()"
+                <button onclick="getResult()" id="qrybtn"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-2/3  lg:w-full rounded">
                     Send Query
                 </button>
             </div>
+            <div id="msg" class="text-center " hidden></div>
         </div>
     </div>
 
-    <div class="flex items-center justify-center mt-10">
-        <div>
+    <div class="flex items-center justify-center mt-10 ">
+        <div class="w-full lg:w-[430px]">
+           
             <div>Yelp Api ! results</div>
+
+            <p class=" space-y-3 px-2 lg:w-2/3" id="chatgpt_result">
+
+            </p>
+
+            <div class="my-2 font-bold text-center" hidden id="content123">Here are some restaurants around you with this offer:</div>
 
             <div class=" space-y-3 px-2" id="bus_list">
 
@@ -90,7 +98,7 @@
         </div>
     </div>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <script>
 
@@ -116,12 +124,18 @@
 
         function getResult() {
             console.log('hi')
-            document.getElementById('bus_list').innerHTML =''
+            document.getElementById('qrybtn').disabled = true
+            document.getElementById('msg').hidden = false
+            document.getElementById('content123').hidden = true
+            document.getElementById('msg').innerHTML = '(avg 30sec)loading response ...'
+            
+            document.getElementById('bus_list').innerHTML = ''
+            document.getElementById('chatgpt_result').innerHTML = ''
             const data = new URLSearchParams();
             data.append("location", document.getElementById('grid-state').options[document.getElementById('grid-state').selectedIndex].text);
-            data.append("main_keyword", document.getElementById('grid-passworde').value);
+            data.append("main_keyword", document.getElementById('grid-password').value);
             data.append("url", document.getElementById('grid-state').value);
-            data.append("keywords", document.getElementById('grid-password').value);
+            data.append("keywords", document.getElementById('grid-passworde').value);
             fetch('/api/handle-query', {
                 method: 'POST',
                 headers: {
@@ -132,7 +146,14 @@
                 .then(data => {
                     return data.json().then((res) => {
                         console.log(res)
-                        res.map((item, index) => {
+                        document.getElementById('msg').innerHTML = 'response loaded'
+                        document.getElementById('qrybtn').disabled = false
+                        setTimeout(() => {
+                            document.getElementById('msg').hidden = true
+                        }, 2000);
+                       $('#chatgpt_result').html(res.chatgpt.content)
+                       document.getElementById('content123').hidden = false
+                        res.yelp.map((item, index) => {
                             var opt = ` <a href="${item.url}"
                 class="flex flex-col  items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                 <img class="object-cover w-full rounded-t-lg h-60 md:h-60 md:w-auto md:rounded-none md:rounded-l-lg"
@@ -145,7 +166,7 @@
                 </div>
             </a>
             `
-                            document.getElementById('bus_list').innerHTML =  document.getElementById('bus_list').innerHTML + opt;
+                            document.getElementById('bus_list').innerHTML = document.getElementById('bus_list').innerHTML + opt;
                         })
                     });
                 })

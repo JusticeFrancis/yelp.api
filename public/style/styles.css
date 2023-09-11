@@ -504,6 +504,10 @@ video {
 .right-0 {
   right: 0px;
 }
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -629,6 +633,9 @@ video {
 }
 .pr-8 {
   padding-right: 2rem;
+}
+.text-center {
+  text-align: center;
 }
 .text-2xl {
   font-size: 1.5rem;
@@ -766,6 +773,14 @@ video {
   .lg\:-mx-3 {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
+  }
+
+  .lg\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+  .lg\:w-\[430px\] {
+    width: 430px;
   }
 
   .lg\:w-full {

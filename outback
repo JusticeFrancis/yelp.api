@@ -1,0 +1,2 @@
+    Next, curate a numbered list section that presents the top 3 highest-rated businesses from Yelp.com IN that city that match from this URL: ${newLocation}
+    Businesses should be sorted by star rating and link to their yelp profile, and in case of a tie, the number of reviews should be the secondary criteria.
