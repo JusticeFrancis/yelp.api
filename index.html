@@ -70,12 +70,12 @@
 
             <div class="flex flex-wrap lg:-mx-3 mb-2">
 
-                <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0" >
+                <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
                         Card Color picker
                     </label>
                     <div class="relative">
-                        <input id="cardcolor" type="color" value="#6590D5" />
+                        <input id="cardcolor" type="color" value="#ffffff" />
                     </div>
                     <p class="text-gray-600 text-xs italic mt-2">choose a card color </p>
 
@@ -86,12 +86,12 @@
 
             <div class="flex flex-wrap lg:-mx-3 mb-2">
 
-                <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0" >
+                <div class="w-full md:w-3/3 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                       Text Color picker
+                        Text Color picker
                     </label>
                     <div class="relative">
-                        <input id="textcolor" type="color" value="#6590D5" />
+                        <input id="textcolor" type="color" value="#05092b" />
                     </div>
                     <p class="text-gray-600 text-xs italic mt-2">choose a text color </p>
 
@@ -109,25 +109,30 @@
                 </button>
             </div>
             <div id="msg" class="text-center " hidden></div>
-        </div>
-    </div>
 
-    <div class="flex items-center justify-center mt-10 ">
-        <div class="w-full lg:w-[430px]">
-           
-            <div>Yelp Api ! results</div>
+            <div class="flex items-center justify-center mt-10 ">
+                <div class="w-full">
 
-            <p class=" space-y-3 px-2 lg:w-2/3" id="chatgpt_result">
+                    <div>Yelp Api ! results <button id="copybtn" class="bg-gray-300 px-2 " onclick="copyResponse()">copy</button></div>
+                    <input hidden id="copytext"/>
 
-            </p>
+                    <p class=" space-y-3 px-2 lg:w-2/3" id="chatgpt_result">
 
-            <!-- <div class="my-2 font-bold text-center" hidden id="content123">Here are some restaurants around you with this offer:</div> -->
+                    </p>
 
-            <div class=" space-y-3 px-2" id="bus_list">
+                    <!-- <div class="my-2 font-bold text-center" hidden id="content123">Here are some restaurants around you with this offer:</div> -->
 
+                    <div class=" space-y-3 px-2" id="bus_list">
+
+                    </div>
+                </div>
             </div>
         </div>
+
+
     </div>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
@@ -158,7 +163,7 @@
             document.getElementById('qrybtn').disabled = true
             document.getElementById('msg').hidden = false
             document.getElementById('msg').innerHTML = '(avg 30sec)loading response ...'
-            
+
             document.getElementById('bus_list').innerHTML = ''
             document.getElementById('chatgpt_result').innerHTML = ''
             const data = new URLSearchParams();
@@ -181,15 +186,20 @@
                         setTimeout(() => {
                             document.getElementById('msg').hidden = true
                         }, 2000);
-                       $('#chatgpt_result').html(res.chatgpt.content)
+                        $('#chatgpt_result').html(res.chatgpt.content)
+                        //navigator.clipboard.writeText(String(res.chatgpt.content.replace(/<[^>]+>/g, '')))
+                        $('#copytext').val(res.chatgpt.content.replace(/<[^>]+>/g, ''))
                         res.yelp.map((item, index) => {
                             var opt = ` <a href="${item.url}"
-                class="flex flex-col  items-center  border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700  dark:hover:bg-gray-700" style="background-color: ${document.getElementById('cardcolor').value}">
+                class="flex flex-col  items-center  border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700  dark:hover:bg-gray-700" style="background-color: ${document.getElementById('cardcolor').value}">
                 <img class="object-cover w-full rounded-t-lg h-60 md:h-60 md:w-auto md:rounded-none md:rounded-l-lg"
                     src="${item.image_url}">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                    <div className='flex justify-between'>  <h5 class="mb-2 text-2xl font-bold tracking-tight" style="color:
-                     ${document.getElementById('textcolor').value}">${item.name}</h5> <span class="" style="color: ${document.getElementById('textcolor').value}" >Rating (${item.rating}) Stars ⭐️</span></div>
+                     ${document.getElementById('textcolor').value}">${item.name} </h5> 
+                     <span class="" style="color: ${document.getElementById('textcolor').value}" >Rating (${item.rating}) Stars ⭐️</span>
+                     </div>
+                     <p class="" style="color: ${document.getElementById('textcolor').value}" >Reviews (${item.review_count}) </p>
                     <p class="mb-3 font-normal" style="color: ${document.getElementById('textcolor').value}">
                     ${item.location.address1},${item.location.city}, ${item.location.country}
                         </p>
@@ -200,6 +210,18 @@
                         })
                     });
                 })
+
+        }
+
+
+        function copyResponse() {
+            var copyText = $('#copytext').val()
+            console.log(copyText)
+           navigator.clipboard.writeText(copyText)
+           $('#copybtn').text('copied')
+           setTimeout(() => {
+            $('#copybtn').text('copy')
+           }, 4000);
 
         }
 
