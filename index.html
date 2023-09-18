@@ -188,7 +188,7 @@
                         }, 2000);
                         $('#chatgpt_result').html(res.chatgpt.content)
                         //navigator.clipboard.writeText(String(res.chatgpt.content.replace(/<[^>]+>/g, '')))
-                        $('#copytext').val(res.chatgpt.content.replace(/<[^>]+>/g, ''))
+                        $('#copytext').val(res.chatgpt.content.replace(/<[^>]+>/g, '') + 'links- '+ res.yelp.map((item,index)=>('yelp business'+(index+1)+' '+item.name+'(name),'+item.rating+'(ratings),'+item.image_url+' (image), ')))
                         res.yelp.map((item, index) => {
                             var opt = ` <a href="${item.url}"
                 class="flex flex-col  items-center  border border-gray-200 rounded-lg shadow  md:max-w-xl hover:bg-gray-100 dark:border-gray-700  dark:hover:bg-gray-700" style="background-color: ${document.getElementById('cardcolor').value}">
