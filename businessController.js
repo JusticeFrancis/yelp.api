@@ -35,7 +35,11 @@ async function handleQuery(req, res) {
     
     Conclude each article with a summary of the article.
     All this should be written in html paragraphs appropriately.
+    The whole content should be written within <html> <html/> tags
     Use bold html tag for title and headings of paragraphs.
+    Before the closing body tag add a div tag with id attribute yelpdata, this tag should be empty.
+
+   
     `;
 
   try {
