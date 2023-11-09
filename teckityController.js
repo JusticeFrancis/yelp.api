@@ -1,11 +1,11 @@
 const nodemailer = require('nodemailer');
 
 const mailgun = require('mailgun-js')({
-    apiKey: '79f27dac3bf5e1b970cb84973eb17273-8c9e82ec-970ecfff',
+    apiKey: process.env.MAILGUN_KEY,
     domain: 'sandbox03598f77e8404b2f8164911001a05c6d.mailgun.org'
   });
   
-
+  
 
 
 async function sendEmail(req,res){
