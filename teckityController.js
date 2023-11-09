@@ -20,7 +20,9 @@ async function sendEmail(req,res){
 
   mailgun.messages().send(data, (error, body) => {
   console.log(body);
+  return res.json(body)
 });
+
 
   
   
